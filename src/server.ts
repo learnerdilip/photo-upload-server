@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 4000
 
 app.use("/", () => {
   // request: Request, response: Response
-  console.log("Empty request test....");
+  return "success"
   
 })
 

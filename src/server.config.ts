@@ -2,6 +2,9 @@ import express, { Application } from "express"
 import helmet from "helmet"
 import morgan from "morgan"
 
+var fs = require('fs')
+var path = require('path')
+
 const ExpressConfig = (): Application => {
   const app = express()
 
@@ -9,7 +12,9 @@ const ExpressConfig = (): Application => {
   app.use(express.json())
 
   app.use(helmet())
-  app.use(morgan("dev"))
+
+  var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+  app.use(morgan("combined",{ stream: accessLogStream }))
 
   return app
 }
