@@ -8,7 +8,7 @@ const app = ExpressConfig()
 const PORT = process.env.PORT || 4000
 const PAGE_SIZE = parseInt(process.env.PAGE_SIZE as string)
 
-const upload = multer({})
+const upload = multer({limits: {fileSize: 1024 * 1024 * 5}}) // 5MB
 
 app.get("/",(_, response: Response) => {
   response.status(200).send({message: "This is the home page!", port: process.env.PORT, PAGESIZE: process.env.PAGE_SIZE, DATABASE_URL: process.env.DATABASE_URL})
@@ -16,6 +16,10 @@ app.get("/",(_, response: Response) => {
 
 app.post("/image", upload.single('file'),async (request: any, response: Response) => {  
   try {   
+    if(!request.file) {
+      throw new Error("File is missing!")
+    }
+
     const {buffer, ...fileMetaData} = request.file
 
     const uploadedFileUrl = await (new s3Service()).uploadFile(request.file)
@@ -25,7 +29,7 @@ app.post("/image", upload.single('file'),async (request: any, response: Response
   
     response.send(savedFile)
   } catch (error) {
-    throw new Error("server error, could not upload the image")
+    console.log("Error message for logs: ",error)
   }
 })
 
@@ -36,7 +40,7 @@ app.get("/images",async (request: any, response: Response) => {
     
     response.send(fileList)
   } catch (error) {
-    throw new Error("server error, could not get Images")
+    console.log("Error message for logs: ",error)
   }
 })
 
