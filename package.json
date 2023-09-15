@@ -2,7 +2,6 @@
   "name": "ts-pic-upload-server",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "scripts": {
     "start": "node dist/src/server.js",
     "dev": "nodemon --exec 'ts-node-esm' src/server.ts ",

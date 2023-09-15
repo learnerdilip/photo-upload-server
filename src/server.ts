@@ -2,9 +2,9 @@ import { Response } from "express";
 import multer from "multer";
 import cors from "cors";
 
-import ExpressConfig from "./server.config.js";
-import s3Service from "./aws/s3.service.js";
-import { PrismaService } from "../prisma/index.js";
+import ExpressConfig from "./server.config.ts";
+import s3Service from "./aws/s3.service.ts";
+import { PrismaService } from "../prisma/index.ts";
 
 const app = ExpressConfig();
 const PORT = process.env.PORT || 4000;
@@ -17,9 +17,6 @@ app.use(cors());
 app.get("/", (_, response: Response) => {
   response.status(200).send({
     message: "This is the home page!",
-    port: process.env.PORT,
-    PAGESIZE: process.env.PAGE_SIZE,
-    DATABASE_URL: process.env.DATABASE_URL,
   });
 });
 
@@ -60,4 +57,6 @@ app.get("/images", async (request: any, response: Response) => {
   }
 });
 
-app.listen(PORT, () => console.log("Server Running on Port" + PORT));
+app.listen(PORT, () => console.log("Server Running on Port " + PORT));
+
+export default app;
