@@ -21,11 +21,14 @@ jobs:
       - name: Update Another Repository
         run: |
           git clone https://github.com/learnerdilip/photo-upload-server
-          cd webapp
+          cd photo-upload-server
           npm run build
+          cp -r dist ../dist-temp
           
+          cd ..
           git clone https://github.com/learnerdilip/test
           cd test
+          cp -r ../dist-temp/* .
           echo "Updated at $(date)" >> update.txt
           git add .
           git commit -m "Update from original repository"
