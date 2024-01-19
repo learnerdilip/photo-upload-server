@@ -22,6 +22,7 @@ jobs:
         run: |
           git clone https://github.com/learnerdilip/photo-upload-server
           cd photo-upload-server
+          npm install
           npm run build
           cp -r dist ../dist-temp
           
