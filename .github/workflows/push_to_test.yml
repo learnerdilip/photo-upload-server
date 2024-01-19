@@ -3,7 +3,7 @@ name: Update Another Repository
 on:
   push:
     branches:
-      - development
+      - main
 
 jobs:
   update-repo:
