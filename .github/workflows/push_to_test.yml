@@ -1,26 +1,34 @@
-name: Push to another repo
+name: Update Another Repository
 
 on:
   push:
     branches:
-      - main
+      - development
 
 jobs:
-  build:
+  update-repo:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: Make changes
-      run: echo "Hello, World!" > hello.txt
+      - name: Setup Git
+        run: |
+          git config --global user.name 'Dilip'
+          git config --global user.email 'diliptalks@gmail.com'
 
-    - name: Commit and push
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        repository: https://github.com/learnerdilip/test
-        branch: main
-        directory: .
-        commit_message: Commit from GitHub Actions
+      - name: Update Another Repository
+        run: |
+          git clone https://github.com/learnerdilip/photo-upload-server
+          cd webapp
+          npm run build
+          
+          git clone https://github.com/learnerdilip/test
+          cd test
+          echo "Updated at $(date)" >> update.txt
+          git add .
+          git commit -m "Update from original repository"
+          git push
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
